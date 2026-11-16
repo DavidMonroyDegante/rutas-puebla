@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rutas Puebla</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-barra">
+      <div class="marca">
+        <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><rect x="3" y="3" width="18" height="15" rx="3" fill="#fff"/><rect x="5.5" y="5.5" width="13" height="5" rx="1" fill="#1b3a8c"/><circle cx="8" cy="14.5" r="1.3" fill="#1b3a8c"/><circle cx="16" cy="14.5" r="1.3" fill="#1b3a8c"/><rect x="6" y="19" width="3" height="2" rx=".5" fill="#fff"/><rect x="15" y="19" width="3" height="2" rx=".5" fill="#fff"/></svg>
+        <span>Rutas Puebla</span>
+      </div>
+      <button id="btn-nueva" class="btn btn-claro" type="button">+ Nueva parada</button>
+    </div>
+    <div class="hero-cuerpo">
+      <h1>Paradas de transporte público de Puebla</h1>
+      <p>Registra, edita y ubica cada parada y las rutas que pasan por ahí.</p>
+      <dl class="stats">
+        <div><dd id="stat-total">0</dd><dt>paradas registradas</dt></div>
+        <div><dd id="stat-activas">0</dd><dt>activas</dt></div>
+        <div><dd id="stat-rutas">0</dd><dt>rutas distintas</dt></div>
+      </dl>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="lateral" aria-label="Lista de paradas">
+      <div class="herramientas">
+        <input type="search" id="buscar" placeholder="Buscar por ID (pue-…), nombre, colonia o ruta" aria-label="Buscar paradas">
+        <div class="filtros" role="group" aria-label="Filtrar por estado">
+          <button type="button" class="chip activo" data-filtro="todas">Todas</button>
+          <button type="button" class="chip" data-filtro="activas">Activas</button>
+          <button type="button" class="chip" data-filtro="inactivas">Inactivas</button>
+        </div>
+        <button id="btn-recargar" class="btn btn-suave" type="button">Actualizar lista</button>
+      </div>
+      <div id="lista-paradas"></div>
+    </section>
+
+    <section class="mapa-wrap" aria-label="Mapa de paradas">
+      <div id="mapa"></div>
+    </section>
+  </main>
+
+  <dialog id="modal">
+    <form id="form-parada">
+      <div class="modal-cabeza">
+        <h2 id="titulo-formulario">Registrar parada</h2>
+        <button type="button" id="btn-cerrar" class="cerrar" aria-label="Cerrar">&times;</button>
+      </div>
+      <input type="hidden" id="parada-id">
+
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" required placeholder="Ej. Parada Zócalo">
+
+      <label for="colonia">Colonia</label>
+      <input type="text" id="colonia" required placeholder="Ej. Centro">
+
+      <div class="fila">
+        <div>
+          <label for="latitud">Latitud</label>
+          <input type="number" id="latitud" step="any" required placeholder="19.0431">
+        </div>
+        <div>
+          <label for="longitud">Longitud</label>
+          <input type="number" id="longitud" step="any" required placeholder="-98.1937">
+        </div>
+      </div>
+      <button type="button" id="btn-elegir" class="btn btn-suave">Elegir ubicación en el mapa</button>
+
+      <label for="rutas">Rutas (separadas por coma)</label>
+      <input type="text" id="rutas" required placeholder="Ruta 1, Ruta 15, Ruta 72">
+
+      <label for="activa">Estado</label>
+      <select id="activa">
+        <option value="true">Activa</option>
+        <option value="false">Inactiva</option>
+      </select>
+
+      <div class="botones">
+        <button type="button" id="btn-cancelar" class="btn btn-suave">Cancelar</button>
+        <button type="submit" id="btn-guardar" class="btn btn-primario">Guardar parada</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="mensaje" role="status" aria-live="polite"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="/static/app.js"></script>
+</body>
+</html>
